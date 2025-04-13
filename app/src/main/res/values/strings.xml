@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Compose Practice App</string>
+
+    // profile screen
+    <string name="account">Account</string>
+    <string name="edit_and_manage_your_account">Edit and Manage your account</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="location">Location</string>
+    <string name="save">Save</string>
+
+</resources>
