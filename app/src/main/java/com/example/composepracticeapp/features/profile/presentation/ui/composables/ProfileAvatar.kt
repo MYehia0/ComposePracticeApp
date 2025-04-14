@@ -1,6 +1,7 @@
 package com.example.composepracticeapp.features.profile.presentation.ui.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +17,7 @@ fun ProfileAvatar(painter: Painter) {
     Image(
         painter = painter,
         contentDescription = "Profile Image",
-        modifier = Modifier
+        modifier = Modifier.size(128.dp)
             .clip(RoundedCornerShape(24.dp))
     )
 }
