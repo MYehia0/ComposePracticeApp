@@ -1,7 +1,7 @@
-package com.example.composepracticeapp.features.profile.presentation.viewmodel
+package com.example.composepracticeapp.features.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.composepracticeapp.features.profile.presentation.models.ProfileUiState
+import com.example.composepracticeapp.features.profile.models.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,9 +18,9 @@ class ProfileViewModel @Inject constructor(): ViewModel() {
     fun onChangeEmail(newValue: String) = _state.update {it.copy(email = newValue)}
     fun onChangePHone(newValue: String) = _state.update {it.copy(phone = newValue)}
     fun onChangeLocation(newValue: String) = _state.update {it.copy(location = newValue)}
-    fun onChangePictureLink(newValue: String) = _state.update {it.copy(link = newValue)}
+    private fun onChangePictureLink(newValue: String) = _state.update {it.copy(link = newValue)}
 
     init {
-        onChangePictureLink("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fclose-up-on-man-profile-looking-far-away&psig=AOvVaw2TgB_TynQLTkWeWLk_nD1I&ust=1744556659275000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNC7taKR1IwDFQAAAAAdAAAAABAE")
+        onChangePictureLink("https://img.icons8.com/?size=100&id=z-JBA_KtSkxG&format=png&color=000000")
     }
 }

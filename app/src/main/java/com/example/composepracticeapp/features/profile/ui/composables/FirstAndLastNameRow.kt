@@ -1,4 +1,4 @@
-package com.example.composepracticeapp.features.profile.presentation.ui.composables
+package com.example.composepracticeapp.features.profile.ui.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composepracticeapp.R
 import com.example.composepracticeapp.core.ui.composables.CustomSpacer
+import com.example.composepracticeapp.core.ui.composables.InformationCard
 
 @Composable
 fun FirstAndLastNameRow(firstName: String, lastName: String,onChangeFirstName: (value: String)->Unit,onChangeLastName: (value: String)->Unit) {

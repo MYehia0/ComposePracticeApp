@@ -1,4 +1,4 @@
-package com.example.composepracticeapp.features.profile.presentation.models
+package com.example.composepracticeapp.features.profile.models
 
 data class ProfileUiState (
     val firstName: String = "",

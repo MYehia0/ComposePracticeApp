@@ -1,4 +1,4 @@
-package com.example.composepracticeapp.features.profile.presentation.ui.composables
+package com.example.composepracticeapp.features.profile.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -9,16 +9,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.composepracticeapp.R
 
 @Composable
-fun ProfileAvatar(painter: Painter) {
+fun ProfileAvatar(painter: Painter, modifier: Modifier = Modifier, size: Dp = 128.dp) {
     Image(
         painter = painter,
         contentDescription = "Profile Image",
-        modifier = Modifier.size(128.dp)
-            .clip(RoundedCornerShape(24.dp))
+        modifier = modifier.size(size)
+            .clip(RoundedCornerShape(size/4))
     )
 }
 

@@ -1,4 +1,4 @@
-package com.example.composepracticeapp.features.profile.presentation.ui.composables
+package com.example.composepracticeapp.core.ui.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Header(title: String, subtitle: String) {
+fun Header(title: String, subtitle: String? = null, modifier: Modifier = Modifier.fillMaxWidth()) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
     ) {
         Text(
             text = title,
@@ -24,14 +24,15 @@ fun Header(title: String, subtitle: String) {
                 fontSize = 20.sp
             )
         )
-        Text(
-            text = subtitle,
-            style = TextStyle(
-                color = Color.Gray,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp
+        if(subtitle != null)
+            Text(
+                text = subtitle,
+                style = TextStyle(
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp
+                )
             )
-        )
     }
 }
 
