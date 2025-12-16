@@ -4,6 +4,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -28,19 +31,22 @@ fun MealItem(
 ) {
     Card(
         modifier = modifier.fillMaxWidth().clickable { onClick(meal) },
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Image(
                 painter = rememberAsyncImagePainter(model = meal.imageUrl),
-                contentDescription = "Meal Image",
+                contentDescription = meal.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth().size(200.dp)
+                modifier = Modifier.fillMaxWidth().aspectRatio(1f)
             )
             Text(
                 text = meal.name,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 16.dp),
-                style = MaterialTheme.typography.titleMedium
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
 
         }

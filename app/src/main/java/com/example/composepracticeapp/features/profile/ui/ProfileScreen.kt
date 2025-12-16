@@ -1,5 +1,6 @@
 package com.example.composepracticeapp.features.profile.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.composepracticeapp.R
@@ -40,17 +42,18 @@ import com.example.composepracticeapp.features.profile.ui.composables.ProfileAva
 import com.example.composepracticeapp.core.ui.composables.TextButton
 import com.example.composepracticeapp.features.profile.viewmodel.ProfileViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProfileScreen(
-    navController: NavHostController,
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel()
     ) {
     val state = viewModel.state.collectAsState()
 
-    Scaffold { innerPadding ->
+    Scaffold {
         ProfileContent(
-            modifier = modifier.fillMaxSize().padding(innerPadding).verticalScroll(rememberScrollState()),
+            modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()),
             state = state.value,
             onChangeFirstName = viewModel::onChangeFirstName,
             onChangeLastName = viewModel::onChangeLastName,
@@ -80,7 +83,7 @@ fun ProfileContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(vertical = 32.dp, horizontal = 16.dp),
+            .padding(vertical = 16.dp, horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -105,11 +108,6 @@ fun ProfileContent(
 @Composable
 fun ProfileScreenPreview() {
     ComposePracticeAppTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            ProfileScreen(
-                navController = NavHostController(LocalContext.current),
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
+        ProfileScreen(navController = NavHostController(LocalContext.current))
     }
 }

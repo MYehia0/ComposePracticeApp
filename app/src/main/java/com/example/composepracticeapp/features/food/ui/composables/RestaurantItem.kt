@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.composepracticeapp.features.food.models.RestaurantUiState
 
@@ -17,7 +19,8 @@ import com.example.composepracticeapp.features.food.models.RestaurantUiState
 fun RestaurantItem(
     restaurant: RestaurantUiState,
     modifier: Modifier = Modifier,
-    onClick: (value: RestaurantUiState) -> Unit
+    navController: NavController,
+    onClick: (value: RestaurantUiState, navController: NavController) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -27,7 +30,7 @@ fun RestaurantItem(
             painter = rememberAsyncImagePainter(model = restaurant.imageUrl),
             contentDescription = "Meal Image",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(100.dp).clickable { onClick(restaurant) }
+            modifier = Modifier.size(100.dp).clickable { onClick(restaurant, navController) }
         )
     }
 }
@@ -40,6 +43,7 @@ fun RestaurantItemPreview() {
             name = "Cheeseburger",
             imageUrl = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop",
         ),
-        onClick = {}
+        navController = rememberNavController(),
+        onClick = { _, _ -> }
     )
 }
