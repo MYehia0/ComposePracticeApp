@@ -28,8 +28,6 @@ class MainActivity : ComponentActivity() {
 fun ComposePracticeApp() {
     ComposePracticeAppTheme(darkTheme = false) {
         AppNavigation()
-//        ProfileScreen()
-//        FoodScreen()
     }
 }
 

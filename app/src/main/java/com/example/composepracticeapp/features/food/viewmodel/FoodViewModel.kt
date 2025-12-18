@@ -1,8 +1,11 @@
 package com.example.composepracticeapp.features.food.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.composepracticeapp.core.nav.RestaurantMealScreenArgs
 import com.example.composepracticeapp.core.nav.Screen
+import com.example.composepracticeapp.core.nav.navigateRestaurantMealScreen
 import com.example.composepracticeapp.features.food.models.FoodUiState
 import com.example.composepracticeapp.features.food.models.MealUiState
 import com.example.composepracticeapp.features.food.models.RestaurantUiState
@@ -13,21 +16,20 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class FoodViewModel @Inject constructor() : ViewModel() {
+class FoodViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
     private val _state = MutableStateFlow(FoodUiState())
     val state = _state.asStateFlow()
+
+    val args = RestaurantMealScreenArgs(savedStateHandle)
 
     init {
         loadData()
     }
 
-    fun onRestaurantClick(restaurant: RestaurantUiState, navController: NavController) {
-        navController.navigate(Screen.RestaurantMeal.route+"/${restaurant.name}")
-//        _state.update { currentState ->
-//            currentState.copy(
-//                restaurants = currentState.restaurants.filterNot { it.name == restaurant.name }
-//            )
-//        }
+    fun onRestaurantClick(navController: NavController) {
+        navController.navigateRestaurantMealScreen(args.restaurantName)
     }
 
     fun onRestaurantMealClick(restaurant: String, meal: MealUiState) {

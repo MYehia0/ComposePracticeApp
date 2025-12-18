@@ -1,6 +1,7 @@
 package com.example.composepracticeapp.core.nav
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -28,22 +29,39 @@ fun NavGraph(navController: NavHostController) {
         composable(Screen.Profile.route) {
             ProfileScreen(navController = navController)
         }
-        composable(
-            Screen.RestaurantMeal.route+"/{restaurantName}",
-            arguments = listOf(
-                navArgument("restaurantName") {
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
-            val restaurantName = backStackEntry.arguments?.getString("restaurantName")
-            RestaurantMealScreen(restaurantName = restaurantName ?: "", onBackClick = { navController.popBackStack() })
-        }
+        restaurantMealScreen(navController)
     }
 }
+
+
 
 sealed class Screen(val route: String) {
     data object Food : Screen("food")
     data object Profile : Screen("profile")
     data object RestaurantMeal : Screen("restaurantMeal")
+}
+
+fun NavGraphBuilder.restaurantMealScreen(navController: NavHostController) {
+    composable(
+        Screen.RestaurantMeal.route + "/{${RestaurantMealScreenArgs.RESTAURANT_NAME_ARG}}",
+        arguments = listOf(
+            navArgument(RestaurantMealScreenArgs.RESTAURANT_NAME_ARG) {
+                type = NavType.StringType
+            }
+        )
+    ) { backStackEntry ->
+        val restaurantName = backStackEntry.arguments?.getString(RestaurantMealScreenArgs.RESTAURANT_NAME_ARG)
+        RestaurantMealScreen(restaurantName = restaurantName ?: "", onBackClick = { navController.popBackStack() })
+    }
+}
+
+fun NavController.navigateRestaurantMealScreen(restaurantName: String) {
+    navigate(Screen.RestaurantMeal.route + "/$restaurantName")
+}
+
+class RestaurantMealScreenArgs(savedStateHandle: SavedStateHandle){
+    val restaurantName: String = checkNotNull(savedStateHandle[RestaurantMealScreenArgs.RESTAURANT_NAME_ARG])
+    companion object{
+        const val RESTAURANT_NAME_ARG = "restaurantName"
+    }
 }

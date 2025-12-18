@@ -20,7 +20,7 @@ fun RestaurantItem(
     restaurant: RestaurantUiState,
     modifier: Modifier = Modifier,
     navController: NavController,
-    onClick: (value: RestaurantUiState, navController: NavController) -> Unit
+    onClick: (navController: NavController) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -30,7 +30,7 @@ fun RestaurantItem(
             painter = rememberAsyncImagePainter(model = restaurant.imageUrl),
             contentDescription = "Meal Image",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(100.dp).clickable { onClick(restaurant, navController) }
+            modifier = Modifier.size(100.dp).clickable { onClick( navController) }
         )
     }
 }
@@ -44,6 +44,6 @@ fun RestaurantItemPreview() {
             imageUrl = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop",
         ),
         navController = rememberNavController(),
-        onClick = { _, _ -> }
+        onClick = { _ -> }
     )
 }

@@ -65,7 +65,7 @@ fun FoodScreenContent(
     navController: NavController,
     modifier: Modifier = Modifier,
     state: FoodUiState,
-    onRestaurantClick: (value: RestaurantUiState, navController: NavController) -> Unit,
+    onRestaurantClick: (navController: NavController) -> Unit,
     onMealClick: (value: MealUiState) -> Unit,
     onEasternMealClick: (value: MealUiState) -> Unit,
     onWesternMealClick: (value: MealUiState) -> Unit,
