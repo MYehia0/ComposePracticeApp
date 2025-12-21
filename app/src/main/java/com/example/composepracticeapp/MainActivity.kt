@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import com.example.composepracticeapp.core.nav.AppNavigation
 import com.example.composepracticeapp.core.ui.theme.ComposePracticeAppTheme
-import com.example.composepracticeapp.features.profile.ui.ProfileScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 

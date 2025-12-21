@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +29,6 @@ import com.example.composepracticeapp.core.ui.theme.ComposePracticeAppTheme
 import com.example.composepracticeapp.features.food.models.MealUiState
 import com.example.composepracticeapp.features.food.ui.composables.MealItem
 import com.example.composepracticeapp.features.food.viewmodel.FoodViewModel
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +41,15 @@ fun RestaurantMealScreen(
 ) {
     val state = viewModel.state.collectAsState()
     val restaurantMeals = state.value.restaurantMealsMap[restaurantName] ?: emptyList()
+    val index = state.value.restaurantMealsMap.keys.indexOf(restaurantName)
+    var responsive = remember { mutableStateOf(false) }
+    if (index != -1) {
+        if (index % 2 == 0) {
+            responsive.value = true
+        } else {
+            responsive.value = false
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -59,6 +69,7 @@ fun RestaurantMealScreen(
         RestaurantMealContent(
             modifier = modifier.padding(innerPadding),
             meals = restaurantMeals,
+            responsive = responsive.value,
             onMealClick = { meal ->
                 viewModel.onRestaurantMealClick(restaurantName, meal)
             }
@@ -70,11 +81,12 @@ fun RestaurantMealScreen(
 @Composable
 fun RestaurantMealContent(
     modifier: Modifier = Modifier,
+    responsive: Boolean,
     meals: List<MealUiState>,
     onMealClick: (MealUiState) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = if (responsive) GridCells.Adaptive(120.dp) else GridCells.Fixed(3),
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -109,6 +121,7 @@ fun RestaurantDetailScreenPreview() {
                     imageUrl = "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&h=400&fit=crop"
                 )
             ),
+            responsive = true,
             onMealClick = {}
         )
     }

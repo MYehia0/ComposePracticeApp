@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Header(title: String, subtitle: String? = null, modifier: Modifier = Modifier.fillMaxWidth()) {
+fun Header(title: String, modifier: Modifier = Modifier, subtitle: String? = null) {
     Column(
         modifier = modifier
     ) {

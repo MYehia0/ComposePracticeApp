@@ -3,9 +3,7 @@ package com.example.composepracticeapp.features.food.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.composepracticeapp.core.nav.RestaurantMealScreenArgs
-import com.example.composepracticeapp.core.nav.Screen
-import com.example.composepracticeapp.core.nav.navigateRestaurantMealScreen
+import com.example.composepracticeapp.core.nav.navigateToRestaurantMeal
 import com.example.composepracticeapp.features.food.models.FoodUiState
 import com.example.composepracticeapp.features.food.models.MealUiState
 import com.example.composepracticeapp.features.food.models.RestaurantUiState
@@ -16,20 +14,16 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class FoodViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class FoodViewModel @Inject constructor(): ViewModel() {
     private val _state = MutableStateFlow(FoodUiState())
     val state = _state.asStateFlow()
-
-    val args = RestaurantMealScreenArgs(savedStateHandle)
 
     init {
         loadData()
     }
 
-    fun onRestaurantClick(navController: NavController) {
-        navController.navigateRestaurantMealScreen(args.restaurantName)
+    fun onRestaurantClick(navController: NavController, restaurantName: String) {
+        navController.navigateToRestaurantMeal(restaurantName)
     }
 
     fun onRestaurantMealClick(restaurant: String, meal: MealUiState) {
@@ -174,7 +168,6 @@ class FoodViewModel @Inject constructor(
                 MealUiState("Bacon Burger", "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&h=400&fit=crop"),
                 MealUiState("Double Burger", "https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=400&fit=crop"),
                 MealUiState("Veggie Burger", "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=400&h=400&fit=crop"),
-                MealUiState("Chicken Burger", "https://images.unsplash.com/photo-1585238341710-4a3cf2e0cde0?w=400&h=400&fit=crop"),
                 MealUiState("BBQ Burger", "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=400&fit=crop"),
                 MealUiState("Mushroom Burger", "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=400&fit=crop")
             ),
@@ -184,7 +177,6 @@ class FoodViewModel @Inject constructor(
                 MealUiState("BBQ Chicken Pizza", "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop"),
                 MealUiState("Hawaiian Pizza", "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=400&fit=crop"),
                 MealUiState("Veggie Supreme", "https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=400&fit=crop"),
-                MealUiState("Meat Lovers", "https://images.unsplash.com/photo-1590534047427-91cf7d2fb0b8?w=400&h=400&fit=crop"),
                 MealUiState("Four Cheese", "https://images.unsplash.com/photo-1458642849426-cfb724f15ef7?w=400&h=400&fit=crop"),
                 MealUiState("Buffalo Chicken", "https://images.unsplash.com/photo-1571066811602-716837d681de?w=400&h=400&fit=crop"),
                 MealUiState("White Pizza", "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=400&fit=crop")
@@ -211,7 +203,6 @@ class FoodViewModel @Inject constructor(
             ),
             "Taco Fiesta" to listOf(
                 MealUiState("Beef Tacos", "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&h=400&fit=crop"),
-                MealUiState("Chicken Tacos", "https://images.unsplash.com/photo-1599974579688-8dbdd335538f?w=400&h=400&fit=crop"),
                 MealUiState("Fish Tacos", "https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=400&h=400&fit=crop"),
                 MealUiState("Shrimp Tacos", "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=400&fit=crop"),
                 MealUiState("Carnitas Tacos", "https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?w=400&h=400&fit=crop"),
@@ -224,7 +215,6 @@ class FoodViewModel @Inject constructor(
                 MealUiState("Ribeye Steak", "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=400&fit=crop"),
                 MealUiState("Filet Mignon", "https://images.unsplash.com/photo-1558030006-450675393462?w=400&h=400&fit=crop"),
                 MealUiState("T-Bone Steak", "https://images.unsplash.com/photo-1546833998-877b37c2e5c6?w=400&h=400&fit=crop"),
-                MealUiState("New York Strip", "https://images.unsplash.com/photo-1624667712743-e6a94a1f3b68?w=400&h=400&fit=crop"),
                 MealUiState("Porterhouse", "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=400&fit=crop"),
                 MealUiState("Prime Rib", "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400&h=400&fit=crop"),
                 MealUiState("Lamb Chops", "https://images.unsplash.com/photo-1560781290-7dc94c0f8f4f?w=400&h=400&fit=crop"),
@@ -233,7 +223,6 @@ class FoodViewModel @Inject constructor(
             "Sweet Tooth Bakery" to listOf(
                 MealUiState("Chocolate Cake", "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=400&fit=crop"),
                 MealUiState("Red Velvet Cake", "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=400&h=400&fit=crop"),
-                MealUiState("Cheesecake", "https://images.unsplash.com/photo-1533134242820-b53f4d04bf98?w=400&h=400&fit=crop"),
                 MealUiState("Tiramisu", "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=400&fit=crop"),
                 MealUiState("Apple Pie", "https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=400&h=400&fit=crop"),
                 MealUiState("Croissant", "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=400&fit=crop"),

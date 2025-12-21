@@ -1,7 +1,6 @@
 package com.example.composepracticeapp.core.nav
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -14,6 +13,18 @@ import com.example.composepracticeapp.features.food.ui.FoodScreen
 import com.example.composepracticeapp.features.food.ui.RestaurantMealScreen
 import com.example.composepracticeapp.features.profile.ui.ProfileScreen
 
+sealed class Screen(val route: String) {
+    data object Profile : Screen("profile")
+    data object Food : Screen("food")
+    data object RestaurantMeal : Screen("restaurantMeal") {
+        const val RESTAURANT_NAME_ARG = "restaurantName"
+        fun createRoute(restaurantName: String): String {
+            return "$route/$restaurantName"
+        }
+        val routeWithArgs: String = "$route/{$RESTAURANT_NAME_ARG}"
+    }
+}
+
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -22,46 +33,69 @@ fun AppNavigation() {
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.Profile.route) {
-        composable(Screen.Food.route) {
-            FoodScreen(navController = navController)
-        }
-        composable(Screen.Profile.route) {
-            ProfileScreen(navController = navController)
-        }
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Profile.route
+    ) {
+        profileScreen(navController)
+        foodScreen(navController)
         restaurantMealScreen(navController)
     }
 }
 
-
-
-sealed class Screen(val route: String) {
-    data object Food : Screen("food")
-    data object Profile : Screen("profile")
-    data object RestaurantMeal : Screen("restaurantMeal")
+private fun NavGraphBuilder.profileScreen(navController: NavHostController) {
+    composable(route = Screen.Profile.route) {
+        ProfileScreen(navController = navController)
+    }
 }
 
-fun NavGraphBuilder.restaurantMealScreen(navController: NavHostController) {
+private fun NavGraphBuilder.foodScreen(navController: NavHostController) {
+    composable(route = Screen.Food.route) {
+        FoodScreen(navController = navController)
+    }
+}
+
+private fun NavGraphBuilder.restaurantMealScreen(navController: NavHostController) {
     composable(
-        Screen.RestaurantMeal.route + "/{${RestaurantMealScreenArgs.RESTAURANT_NAME_ARG}}",
+        route = Screen.RestaurantMeal.routeWithArgs,
         arguments = listOf(
-            navArgument(RestaurantMealScreenArgs.RESTAURANT_NAME_ARG) {
+            navArgument(Screen.RestaurantMeal.RESTAURANT_NAME_ARG) {
                 type = NavType.StringType
             }
         )
     ) { backStackEntry ->
-        val restaurantName = backStackEntry.arguments?.getString(RestaurantMealScreenArgs.RESTAURANT_NAME_ARG)
-        RestaurantMealScreen(restaurantName = restaurantName ?: "", onBackClick = { navController.popBackStack() })
+        val restaurantName = backStackEntry.arguments
+            ?.getString(Screen.RestaurantMeal.RESTAURANT_NAME_ARG)
+            ?: return@composable
+
+        RestaurantMealScreen(
+            restaurantName = restaurantName,
+            onBackClick = { navController.popBackStack() }
+        )
     }
 }
 
-fun NavController.navigateRestaurantMealScreen(restaurantName: String) {
-    navigate(Screen.RestaurantMeal.route + "/$restaurantName")
-}
+//fun NavController.navigateToProfile() {
+//    navigate(Screen.Profile.route) {
+//        launchSingleTop = true
+//    }
+//}
 
-class RestaurantMealScreenArgs(savedStateHandle: SavedStateHandle){
-    val restaurantName: String = checkNotNull(savedStateHandle[RestaurantMealScreenArgs.RESTAURANT_NAME_ARG])
-    companion object{
-        const val RESTAURANT_NAME_ARG = "restaurantName"
+fun NavController.navigateToFood() {
+    navigate(Screen.Food.route) {
+        launchSingleTop = true
     }
 }
+
+fun NavController.navigateToRestaurantMeal(restaurantName: String) {
+    navigate(Screen.RestaurantMeal.createRoute(restaurantName))
+}
+
+//fun NavController.navigateToProfileAndClearBackStack() {
+//    navigate(Screen.Profile.route) {
+//        popUpTo(graph.startDestinationId) {
+//            inclusive = true
+//        }
+//        launchSingleTop = true
+//    }
+//}

@@ -16,8 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.example.composepracticeapp.core.ui.theme.LightGreen
 
 @Composable
-fun CustomButton(text: String, modifier: Modifier = Modifier.fillMaxWidth()
-    .height(54.dp), color: Color = LightGreen, onClick: () -> Unit){
+fun CustomButton(text: String, modifier: Modifier = Modifier, color: Color = LightGreen, onClick: () -> Unit){
     Button(onClick = onClick,
         colors = ButtonDefaults.buttonColors(color),
         shape = RoundedCornerShape(16.dp),
